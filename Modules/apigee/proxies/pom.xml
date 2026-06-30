@@ -24,12 +24,6 @@
                 <apigee.env>eval</apigee.env>
             </properties>
         </profile>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <apigee.env>dev</apigee.env>
-            </properties>
-        </profile>
     </profiles>
 
     <build>
