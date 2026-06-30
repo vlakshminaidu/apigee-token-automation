@@ -1,31 +1,53 @@
-<build>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-<plugins>
+    <groupId>com.example.apigee</groupId>
+    <artifactId>apigee-api-deployment</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
 
-<plugin>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.apigee.edge.config</groupId>
+                <artifactId>apigee-config-maven-plugin</artifactId>
+                <version>2.3.0</version>
+                <configuration>
+                    <apigee.org>${env.APIGEE_ORG}</apigee.org>
+                    <apigee.env>${env.APIGEE_ENV}</apigee.env>
+                    <apigee.token>${env.APIGEE_TOKEN}</apigee.token>
+                    <apigee.apiProxy>demo-protected-api</apigee.apiProxy>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>deploy-demo-protected-api</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                        <configuration>
+                            <organization>${env.APIGEE_ORG}</organization>
+                            <environment>${env.APIGEE_ENV}</environment>
+                            <bearer>${env.APIGEE_TOKEN}</bearer>
+                            <apiProxyDirectory>${project.basedir}/proxies/demo-protected-api</apiProxyDirectory>
+                            <api>demo-protected-api</api>
+                            <override>true</override>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-<groupId>com.google.cloud.apigee</groupId>
-
-<artifactId>apigee-deploy-maven-plugin</artifactId>
-
-<version>2.3.0</version>
-
-<configuration>
-
-<organization>${apigee.org)</organization>
-
-<environment>${apigee.env)</environment>
-
-<api>my-api-proxy</api>
-
-<apigee.config.options>apigee</apigee.config.options>
-
-<bearer>${apigee.token}</bearer>
-
-</configuration>
-
-</plugin>
-
-</plugins>
-
-</build>
+    <profiles>
+        <profile>
+            <id>eval</id>
+            <properties>
+                <apigee.env>eval</apigee.env>
+            </properties>
+        </profile>
+    </profiles>
+</project>
