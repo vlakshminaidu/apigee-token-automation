@@ -3,7 +3,7 @@ name: Deploy Apigee Proxy
 on:
   push:
     branches:
-      - test   # Trigger deployment when code is pushed to main
+      - main   # Trigger deployment when code is pushed to main
   workflow_dispatch: # Allow manual trigger
 
 jobs:
