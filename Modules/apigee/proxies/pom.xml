@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example.apigee</groupId>
@@ -9,38 +11,11 @@
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>com.apigee.edge.config</groupId>
-                <artifactId>apigee-config-maven-plugin</artifactId>
-                <version>2.3.0</version>
-                <configuration>
-                    <apigee.org>${env.APIGEE_ORG}</apigee.org>
-                    <apigee.env>${env.APIGEE_ENV}</apigee.env>
-                    <apigee.token>${env.APIGEE_TOKEN}</apigee.token>
-                    <apigee.apiProxy>demo-protected-api</apigee.apiProxy>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>deploy-demo-protected-api</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                        <configuration>
-                            <organization>${env.APIGEE_ORG}</organization>
-                            <environment>${env.APIGEE_ENV}</environment>
-                            <bearer>${env.APIGEE_TOKEN}</bearer>
-                            <apiProxyDirectory>${project.basedir}/proxies/demo-protected-api</apiProxyDirectory>
-                            <api>demo-protected-api</api>
-                            <override>true</override>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <properties>
+        <apigee.org>${env.APIGEE_ORG}</apigee.org>
+        <apigee.env>${env.APIGEE_ENV}</apigee.env>
+        <apigee.token>${env.APIGEE_TOKEN}</apigee.token>
+    </properties>
 
     <profiles>
         <profile>
@@ -49,5 +24,77 @@
                 <apigee.env>eval</apigee.env>
             </properties>
         </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <apigee.env>dev</apigee.env>
+            </properties>
+        </profile>
     </profiles>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>io.apigee.build-tools.enterprise4g</groupId>
+                <artifactId>apigee-deploy-maven-plugin</artifactId>
+                <version>3.0.0</version>
+
+                <executions>
+
+                    <!-- Deploy sf-spikearrest shared flow FIRST -->
+                    <execution>
+                        <id>deploy-sf-spikearrest</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>sharedflows</goal>
+                        </goals>
+                        <configuration>
+                            <organization>${apigee.org}</organization>
+                            <environment>${apigee.env}</environment>
+                            <bearer>${apigee.token}</bearer>
+                            <api>sf-spikearrest</api>
+                            <sharedFlowBundleDirectory>${project.basedir}/shared-flows/sf-spikearrest</sharedFlowBundleDirectory>
+                            <override>true</override>
+                        </configuration>
+                    </execution>
+
+                    <!-- Deploy SF-raisefault shared flow SECOND -->
+                    <execution>
+                        <id>deploy-sf-raisefault</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>sharedflows</goal>
+                        </goals>
+                        <configuration>
+                            <organization>${apigee.org}</organization>
+                            <environment>${apigee.env}</environment>
+                            <bearer>${apigee.token}</bearer>
+                            <api>SF-raisefault</api>
+                            <sharedFlowBundleDirectory>${project.basedir}/shared-flows/SF-raisefault</sharedFlowBundleDirectory>
+                            <override>true</override>
+                        </configuration>
+                    </execution>
+
+                    <!-- Deploy demo-protected-api proxy LAST (depends on both shared flows above) -->
+                    <execution>
+                        <id>deploy-demo-protected-api</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                        <configuration>
+                            <organization>${apigee.org}</organization>
+                            <environment>${apigee.env}</environment>
+                            <bearer>${apigee.token}</bearer>
+                            <api>demo-protected-api</api>
+                            <apiProxyDirectory>${project.basedir}/proxies/demo-protected-api</apiProxyDirectory>
+                            <override>true</override>
+                        </configuration>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
