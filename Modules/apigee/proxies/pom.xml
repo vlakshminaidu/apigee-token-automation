@@ -14,7 +14,7 @@
     <properties>
         <apigee.org>${env.APIGEE_ORG}</apigee.org>
         <apigee.env>${env.APIGEE_ENV}</apigee.env>
-        <apigee.token>${env.APIGEE_TOKEN}</apigee.token>
+
     </properties>
 
     <profiles>
@@ -35,40 +35,7 @@
 
                 <executions>
 
-                    <!-- Deploy sf-spikearrest shared flow FIRST -->
-                    <execution>
-                        <id>deploy-sf-spikearrest</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>sharedflows</goal>
-                        </goals>
-                        <configuration>
-                            <organization>${apigee.org}</organization>
-                            <environment>${apigee.env}</environment>
-                            <bearer>${apigee.token}</bearer>
-                            <api>sf-spikearrest</api>
-                            <sharedFlowBundleDirectory>${project.basedir}/shared-flows/sf-spikearrest</sharedFlowBundleDirectory>
-                            <override>true</override>
-                        </configuration>
-                    </execution>
-
-                    <!-- Deploy SF-raisefault shared flow SECOND -->
-                    <execution>
-                        <id>deploy-sf-raisefault</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>sharedflows</goal>
-                        </goals>
-                        <configuration>
-                            <organization>${apigee.org}</organization>
-                            <environment>${apigee.env}</environment>
-                            <bearer>${apigee.token}</bearer>
-                            <api>SF-raisefault</api>
-                            <sharedFlowBundleDirectory>${project.basedir}/shared-flows/SF-raisefault</sharedFlowBundleDirectory>
-                            <override>true</override>
-                        </configuration>
-                    </execution>
-
+         
                     <!-- Deploy demo-protected-api proxy LAST (depends on both shared flows above) -->
                     <execution>
                         <id>deploy-demo-protected-api</id>
