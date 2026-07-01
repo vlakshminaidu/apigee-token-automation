@@ -32,22 +32,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Setup Google Auth
-        env:
-          SA_KEY: ${{ secrets.APIGEE_SA_KEY }}
-        run: |
-          echo "${SA_KEY}" > /tmp/sa_key.json
-          cat /tmp/sa_key.json | python3 -c "import sys,json; json.load(sys.stdin); print('JSON is valid')"
-          gcloud auth activate-service-account \
-            --key-file=/tmp/sa_key.json \
-            --project=apt-advantage-495505-k1
-
       - name: Build and Deploy Apigee Proxy
         run: |
-          TOKEN=$(gcloud auth print-access-token)
-          echo "Token length: ${#TOKEN}"
           mvn clean install -Peval \
             -Dorg=apt-advantage-495505-k1 \
             -Denv=eval \
-            -Dbearer=${TOKEN} \
+            -Dbearer="ya29.a0AT3oNZ_CbQkc2LjRzu0i3aeCChxloSzUOoJfan337e9aZXL1Fe2c_jfMiaG3F_tKmF6NfG9q_Uk8xZLvFq6lHE7MPUENh21ja5d5fWO6Jr73Qv-gBJfXINbYHuR3N8VIh4uQUd-zWcoCqvePeOPUMNbtgk0KyWJwr6U3mohAEtPygUwEaMKI9piX8YTRTvsdgd7joIzFaue6aCgYKAS0SARISFQHGX2MiZk8sbELj3FiR71e2pznj1Q0211" \
             -Dapigee.options=override
