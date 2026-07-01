@@ -26,17 +26,11 @@
         </profile>
     </profiles>
 
-    <!-- ← ADD THIS: Apigee plugin repository -->
     <pluginRepositories>
         <pluginRepository>
-            <id>central</id>
-            <name>Maven Central</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>apigee-repo</id>
-            <name>Apigee Maven Repository</name>
-            <url>https://repo1.maven.org/maven2</url>
+            <id>apigee-deploy-maven-plugin</id>
+            <name>Apigee Deploy Maven Plugin</name>
+            <url>https://raw.githubusercontent.com/apigee/apigee-deploy-maven-plugin/master/repo</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -45,7 +39,7 @@
             <plugin>
                 <groupId>io.apigee.build-tools.enterprise4g</groupId>
                 <artifactId>apigee-deploy-maven-plugin</artifactId>
-                <version>2.3.4</version>  <!-- ← Try this version -->
+                <version>2.2.0</version>
                 <executions>
                     <execution>
                         <id>deploy-demo-protected-api</id>
