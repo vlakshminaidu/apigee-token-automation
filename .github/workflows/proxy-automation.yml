@@ -33,12 +33,9 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Build and Deploy Apigee Proxy
-        env:
-          APIGEE_TOKEN: ${{ secrets.APIGEE_TOKEN }}
-          APIGEE_ORG: ${{ secrets.APIGEE_ORG }}
         run: |
           mvn clean install -Peval \
-            -Dorg=${APIGEE_ORG} \
+            -Dorg=apt-advantage-495505-k1 \
             -Denv=eval \
-            -Dbearer=${APIGEE_TOKEN} \
+            -Dbearer="ya29.a0AT3oNZ_20CsCw2OCrtLgNvnybHudY6_KDSLDev5HCZpVOzn3B9_bEslQmVmkBsKQ56O1beWGJXUyxYL20zDcUlzL5m4XR4hTwS0WznhQiP1WBg1rX7RpUWEC1BgL4dnQ1xiEuZohbS5MSo0VDGv4vB-AxDJY_tJ8P3VyEbTV1MllfaeU2UGbP1vUrEqXzccwH9jx7VB_qHrOaCgYKAXESARISFQHGX2Mii0pKw3jX4RAUBA8eQRDHWg0211" \
             -Dapigee.options=override
