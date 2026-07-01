@@ -7,23 +7,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.example.apigee</groupId>
-    <artifactId>apigee-api-deployment</artifactId>
+    <artifactId>demo-protected-api</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
-
-    <properties>
-        <apigee.org>${APIGEE_ORG}</apigee.org>
-        <apigee.env>${APIGEE_ENV}</apigee.env>
-        <apigee.token>${APIGEE_TOKEN}</apigee.token>
-        <apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
-        <apigee.apiversion>v1</apigee.apiversion>
-    </properties>
 
     <profiles>
         <profile>
             <id>eval</id>
             <properties>
-                <apigee.env>eval</apigee.env>
+                <apigee.org>${APIGEE_ORG}</apigee.org>
+                <apigee.env>${APIGEE_ENV}</apigee.env>
+                <apigee.hosturl>https://apigee.googleapis.com</apigee.hosturl>
+                <apigee.apiversion>v1</apigee.apiversion>
+                <apigee.bearer>${APIGEE_TOKEN}</apigee.bearer>
+                <apigee.options>override</apigee.options>
             </properties>
         </profile>
     </profiles>
@@ -35,22 +32,21 @@
                 <artifactId>apigee-edge-maven-plugin</artifactId>
                 <version>2.4.0</version>
                 <executions>
+                    <!-- Step 1: Configure/package the bundle -->
                     <execution>
-                        <id>deploy-demo-protected-api</id>
+                        <id>configure-bundle</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>configure</goal>
+                        </goals>
+                    </execution>
+                    <!-- Step 2: Deploy the bundle -->
+                    <execution>
+                        <id>deploy-bundle</id>
                         <phase>install</phase>
                         <goals>
                             <goal>deploy</goal>
                         </goals>
-                        <configuration>
-                            <organization>${apigee.org}</organization>
-                            <environment>${apigee.env}</environment>
-                            <bearer>${apigee.token}</bearer>
-                            <hosturl>${apigee.hosturl}</hosturl>
-                            <apigeeAPIVersion>${apigee.apiversion}</apigeeAPIVersion>
-                            <api>demo-protected-api</api>
-                            <apiProxyDirectory>${project.basedir}/apiproxy</apiProxyDirectory>
-                            <override>true</override>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
