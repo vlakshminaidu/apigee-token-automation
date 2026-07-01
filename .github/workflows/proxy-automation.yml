@@ -32,10 +32,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.APIGEE_SA_KEY }}
+
+      - name: Set up gcloud
+        uses: google-github-actions/setup-gcloud@v2
+
       - name: Build and Deploy Apigee Proxy
         run: |
+          TOKEN=$(gcloud auth print-access-token)
           mvn clean install -Peval \
             -Dorg=apt-advantage-495505-k1 \
             -Denv=eval \
-            -Dbearer="ya29.a0AT3oNZ_CbQkc2LjRzu0i3aeCChxloSzUOoJfan337e9aZXL1Fe2c_jfMiaG3F_tKmF6NfG9q_Uk8xZLvFq6lHE7MPUENh21ja5d5fWO6Jr73Qv-gBJfXINbYHuR3N8VIh4uQUd-zWcoCqvePeOPUMNbtgk0KyWJwr6U3mohAEtPygUwEaMKI9piX8YTRTvsdgd7joIzFaue6aCgYKAS0SARISFQHGX2MiZk8sbELj3FiR71e2pznj1Q0211" \
+            -Dbearer=${TOKEN} \
             -Dapigee.options=override
