@@ -32,23 +32,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Build the project
-        run: mvn clean install
-        env:
-          APIGEE_ORG: ${{ secrets.APIGEE_ORG }}
-          APIGEE_ENV: ${{ secrets.APIGEE_ENV }}
-          APIGEE_TOKEN: ${{ secrets.APIGEE_TOKEN }}
-
-      - name: Run tests
-        run: mvn test
-        env:
-          APIGEE_ORG: ${{ secrets.APIGEE_ORG }}
-          APIGEE_ENV: ${{ secrets.APIGEE_ENV }}
-          APIGEE_TOKEN: ${{ secrets.APIGEE_TOKEN }}
-
       - name: Build and Deploy Apigee Proxy
-        run: mvn install -P${{ secrets.APIGEE_ENV }}
-        env:
-          APIGEE_ORG: ${{ secrets.APIGEE_ORG }}
-          APIGEE_ENV: ${{ secrets.APIGEE_ENV }}
-          APIGEE_TOKEN: ${{ secrets.APIGEE_TOKEN }}
+        run: mvn install -Peval -DAPIGEE_ORG=${{ secrets.APIGEE_ORG }} -DAPIGEE_ENV=${{ secrets.APIGEE_ENV }} -DAPIGEE_TOKEN=${{ secrets.APIGEE_TOKEN }}
