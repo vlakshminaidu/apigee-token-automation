@@ -37,5 +37,5 @@ jobs:
           mvn clean install -Peval \
             -Dorg=apt-advantage-495505-k1 \
             -Denv=eval \
-            -Dbearer="ya29.a0AT3oNZ93L0CCzRC0wTarh66Jup0sq3O6Nd0Y07GB0lDdnlgDOL8m5hZ852aWxV7vnQVLeelHe3lA91uohOzEEa9_0QLFOwKFyJWhG9qj4s6QPApW4op-evGjTIn3HQdj0ZJhjNIft_0D7si7kpC4fzyObUx2K8me6snifb06edjG-JWcgj4APFB0BJSmTTZ-J3smKlsCzjBhaCgYKAfYSARISFQHGX2Mi6_OJw4eP87OT4bGHhzsSQw0211" \
+            -Dbearer="ya29.a0AT3oNZ8LgaGERqg7uo6iPvyCUxKS0VMQiJI-FFzp-wWpJyVf8VN0rU3VJJfTTyC-oDW6cCCJCkn9khxPPCaUEtBrUn5isPUaj5Ho6g8jwA2ZSPzQmUs_KK-aPuwbz9IOAkm4Pw4WIyd4OoLI9aWaaemyn6Y3_CnH19xHt1h6M6ccnFUl9MeTiMWzfCg2JSyoWONqnklXyIG7aCgYKAfYSARISFQHGX2Miptij0rxhbchBDzkaYDxZow0211" \
             -Dapigee.options=override
