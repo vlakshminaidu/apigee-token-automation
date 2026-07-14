@@ -31,6 +31,15 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+            
+      - name: Debug secret
+        run: |
+          if [ -z "${{ secrets.APIGEE_SA_KEY }}" ]; then
+            echo "SECRET IS EMPTY OR NOT ACCESSIBLE"
+          else
+            echo "SECRET HAS CONTENT, LENGTH:"
+            echo -n "${{ secrets.APIGEE_SA_KEY }}" | wc -c
+          fi
 
       - name: Authenticate to GCP
         id: auth
