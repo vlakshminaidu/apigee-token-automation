@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-            
+
       - name: Debug secret
         run: |
           if [ -z "${{ secrets.APIGEE_SA_KEY }}" ]; then
