@@ -32,15 +32,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Debug secret
-        run: |
-          if [ -z "${{ secrets.APIGEE_SA_KEY }}" ]; then
-            echo "SECRET IS EMPTY OR NOT ACCESSIBLE"
-          else
-            echo "SECRET HAS CONTENT, LENGTH:"
-            echo -n "${{ secrets.APIGEE_SA_KEY }}" | wc -c
-          fi
-
       - name: Authenticate to GCP
         id: auth
         uses: google-github-actions/auth@v2
@@ -56,10 +47,8 @@ jobs:
       - name: Deploy Shared Flow - Spike Arrest
         working-directory: Modules/apigee/sharedflows/sf-spikearrest/sharedflowbundle
         run: |
-          zip -r ../sf-spikearrest.zip .
-          cd ..
           apigeecli sharedflows create bundle \
-            -f sf-spikearrest.zip \
+            -p . \
             -n sf-spikearrest \
             -o internship-439613 \
             -t ${{ steps.auth.outputs.access_token }}
@@ -74,10 +63,8 @@ jobs:
       - name: Deploy Shared Flow - Raise Fault
         working-directory: Modules/apigee/sharedflows/sf-raisefault/sharedflowbundle
         run: |
-          zip -r ../sf-raisefault.zip .
-          cd ..
           apigeecli sharedflows create bundle \
-            -f sf-raisefault.zip \
+            -p . \
             -n sf-raisefault \
             -o internship-439613 \
             -t ${{ steps.auth.outputs.access_token }}
