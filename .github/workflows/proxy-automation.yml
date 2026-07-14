@@ -36,5 +36,5 @@ jobs:
           mvn clean install -Peval \
             -Dorg=internship-439613 \
             -Denv=eval \
-            -Dbearer="ya29.a0ARGnu0aW2ercLsz7nYcbCOVJHrMo0oCO3RhAqMI6a6M1hcyxKgPbMXoOHP8sGWsqPNbo73N3Gjo-gIfTr_hYrsg3FMk__Cym5cH_pSFE_RQ9f52ftzJRItLy-RiSa1vM84os-e4KVLtgy5Z6yWDPXy3RPWrl3Jq-qkXr_q_Ne8KffnUuB5G5vMpzLZI4Qq6GcJR3TcBH89UJaCgYKAVsSARESFQHGX2Mix-3PuBL_8SeN3b-4UnDFKw0211" \
+            -Dbearer="ya29.a0ARGnu0YLjGlHViQJWA5UgFSDakFHJpEtGjPCP0MvkktOYp2xtpewlyVpYgoyVIsRintwGwlELIOBvvrl3BiOOliKFQ8cv33OUTUy3WyB7WtIjfZZvM6rZ-JHjk4QYila6jNeTNVN2t9ZahhmBHpZ9Cu1w9Vj3iFuPTLvfRpPvEHD66u74EaaXo93tV5yatznfnblcZCF-NhAaCgYKAdsSARESFQHGX2MiNC59QMzoze_nBuuhufXdFA0211" \
             -Dapigee.options=override

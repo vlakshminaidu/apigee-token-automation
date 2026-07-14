@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault continueOnError="false" enabled="true" name="RaiseFault-500">
+  <DisplayName>Raise Fault 500</DisplayName>
+  <FaultResponse>
+    <Set>
+      <StatusCode>500</StatusCode>
+      <ReasonPhrase>Internal Server Error</ReasonPhrase>
+      <Headers>
+        <Header name="Content-Type">application/json</Header>
+      </Headers>
+      <Payload contentType="application/json">{
+  "error": {
+    "code": 500,
+    "status": "INTERNAL_SERVER_ERROR",
+    "message": "An unexpected error occurred. Please try again later.",
+    "details": {
+      "reason": "{fault.name}"
+    }
+  }
+}</Payload>
+    </Set>
+  </FaultResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

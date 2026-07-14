@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SharedFlow name="default">
+  <PreFlow name="PreFlow">
+    <Request>
+      <Step>
+        <Name>RaiseFault-401</Name>
+        <Condition>(fault.name = "InvalidAccessToken")
+                        OR (fault.name = "AccessTokenExpired")
+                        OR (fault.name = "FailedToResolveAccessToken")
+                        OR (fault.name = "InvalidTokenType")
+                        OR (fault.name = "InvalidAPICallAsNoApiProductMatchFound")</Condition>
+      </Step>
+      <Step>
+        <Name>RaiseFault-429</Name>
+        <Condition>(fault.name = "SpikeArrestViolation")</Condition>
+      </Step>
+      <Step>
+        <Name>RaiseFault-400</Name>
+        <Condition>(fault.name = "InvalidMessageWeight")
+                        OR (fault.name = "FailedToResolveSpikeArrestRate")
+                        OR (fault.name = "MissingRequestHeader")</Condition>
+      </Step>
+      <Step>
+        <Name>RaiseFault-500</Name>
+        <Condition>(fault.name != "InvalidAccessToken")
+                        AND (fault.name != "AccessTokenExpired")
+                        AND (fault.name != "FailedToResolveAccessToken")
+                        AND (fault.name != "InvalidTokenType")
+                        AND (fault.name != "InvalidAPICallAsNoApiProductMatchFound")
+                        AND (fault.name != "SpikeArrestViolation")
+                        AND (fault.name != "InvalidMessageWeight")
+                        AND (fault.name != "FailedToResolveSpikeArrestRate")
+                        AND (fault.name != "MissingRequestHeader")</Condition>
+      </Step>
+    </Request>
+    <Response/>
+  </PreFlow>
+  <Flows/>
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response/>
+  </PostFlow>
+</SharedFlow>
