@@ -40,15 +40,22 @@ jobs:
           token_format: 'access_token'
 
       - name: Install apigeecli
+        working-directory: .
         run: |
           curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
           echo "$HOME/.apigeecli/bin" >> $GITHUB_PATH
 
-      - name: Deploy Shared Flow - Spike Arrest
-        working-directory: Modules/apigee/sharedflows/sf-spikearrest/sharedflowbundle
+      - name: Debug apigeecli sharedflows usage
+        working-directory: .
         run: |
+          apigeecli sharedflows create bundle --help
+
+      - name: Deploy Shared Flow - Spike Arrest
+        working-directory: Modules/apigee/sharedflows/sf-spikearrest
+        run: |
+          zip -r sf-spikearrest.zip sharedflowbundle
           apigeecli sharedflows create bundle \
-            -p . \
+            -f sf-spikearrest.zip \
             -n sf-spikearrest \
             -o internship-439613 \
             -t ${{ steps.auth.outputs.access_token }}
@@ -61,10 +68,11 @@ jobs:
             --ovr
 
       - name: Deploy Shared Flow - Raise Fault
-        working-directory: Modules/apigee/sharedflows/sf-raisefault/sharedflowbundle
+        working-directory: Modules/apigee/sharedflows/sf-raisefault
         run: |
+          zip -r sf-raisefault.zip sharedflowbundle
           apigeecli sharedflows create bundle \
-            -p . \
+            -f sf-raisefault.zip \
             -n sf-raisefault \
             -o internship-439613 \
             -t ${{ steps.auth.outputs.access_token }}
