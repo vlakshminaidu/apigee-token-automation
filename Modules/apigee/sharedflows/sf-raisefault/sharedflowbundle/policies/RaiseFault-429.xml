@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RaiseFault continueOnError="false" enabled="true" name="RaiseFault-429">
+  <DisplayName>Raise Fault 429</DisplayName>
+  <FaultResponse>
+    <Set>
+      <StatusCode>429</StatusCode>
+      <ReasonPhrase>Too Many Requests</ReasonPhrase>
+      <Headers>
+        <Header name="Content-Type">application/json</Header>
+        <Header name="Retry-After">1</Header>
+      </Headers>
+      <Payload contentType="application/json">{
+  "error": {
+    "code": 429,
+    "status": "TOO_MANY_REQUESTS",
+    "message": "Rate limit exceeded. You have exceeded the allowed request rate.",
+    "details": {
+      "reason": "{fault.name}",
+      "limit": "1 request per second",
+      "retryAfter": "1 second"
+    }
+  }
+}</Payload>
+    </Set>
+  </FaultResponse>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
