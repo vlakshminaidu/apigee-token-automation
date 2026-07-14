@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SpikeArrest continueOnError="false" enabled="true" name="SpikeArrest">
+  <DisplayName>SA- SpikeArrest</DisplayName>
+  <!-- 1 request per minute for easy testing -->
+  <Rate>1pm</Rate>
+  <!-- Identify by client IP address -->
+  <Identifier ref="client.ip"/>
+</SpikeArrest>
