@@ -31,10 +31,59 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+
+      - name: Authenticate to GCP
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.APIGEE_SA_KEY }}'
+          token_format: 'access_token'
+
+      - name: Install apigeecli
+        run: |
+          curl -L https://raw.githubusercontent.com/apigee/apigeecli/main/downloadLatest.sh | sh -
+          echo "$HOME/.apigeecli/bin" >> $GITHUB_PATH
+
+      - name: Deploy Shared Flow - Spike Arrest
+        working-directory: Modules/apigee/sharedflows/sf-spikearrest/sharedflowbundle
+        run: |
+          zip -r ../sf-spikearrest.zip .
+          cd ..
+          apigeecli sharedflows create bundle \
+            -f sf-spikearrest.zip \
+            -n sf-spikearrest \
+            -o internship-439613 \
+            -t ${{ steps.auth.outputs.access_token }}
+          apigeecli sharedflows deploy \
+            -n sf-spikearrest \
+            -e eval \
+            -o internship-439613 \
+            --sa apigee-github-deployer@internship-439613.iam.gserviceaccount.com \
+            -t ${{ steps.auth.outputs.access_token }} \
+            --ovr
+
+      - name: Deploy Shared Flow - Raise Fault
+        working-directory: Modules/apigee/sharedflows/sf-raisefault/sharedflowbundle
+        run: |
+          zip -r ../sf-raisefault.zip .
+          cd ..
+          apigeecli sharedflows create bundle \
+            -f sf-raisefault.zip \
+            -n sf-raisefault \
+            -o internship-439613 \
+            -t ${{ steps.auth.outputs.access_token }}
+          apigeecli sharedflows deploy \
+            -n sf-raisefault \
+            -e eval \
+            -o internship-439613 \
+            --sa apigee-github-deployer@internship-439613.iam.gserviceaccount.com \
+            -t ${{ steps.auth.outputs.access_token }} \
+            --ovr
+
       - name: Build and Deploy Apigee Proxy
         run: |
           mvn clean install -Peval \
             -Dorg=internship-439613 \
             -Denv=eval \
-            -Dbearer="ya29.a0ARGnu0amsVZ0HOq0p2vNVLoJ4X6abnoRvW9Hmy1t4V1RuJRaNcjsnaI78J34t6i43tJXxMS0gvxmz9VCGA7r25rgMdQAclS1dB8A6TD4_0KJFU_NWT3CLRqZA1WwCBwX-v0gFZfreOA82UphWCX85ZLPkazV6SU7PFmDHwHqDa6hfLMkRUatMmHdvpXgBlQHKqEx-gpy6Tm9qNHTwAIDTem-ttULZkj5HWbHgfSX-d3jKv85qYWGgxTIagccg2W-A-cvPTdGSdwa2Sk6l3CoD8hZRd7tYNA1q1T9MBWUhrmOB7Qjmmf_AIu8hxE16PrqH0IpQ2TcKwGJk9sexJc8Qrjkg6zfPghNFhxHY1QaCgYKAVsSARESFQHGX2Mi34K9v9yUBmybj59KPb7-SA0366" \
+            -Dbearer="${{ steps.auth.outputs.access_token }}" \
             -Dapigee.options=override
