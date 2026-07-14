@@ -4,10 +4,6 @@
   <Description>Reusable rate limiting shared flow</Description>
   <Policies>
     <Policy>SpikeArrest</Policy>
-    <Policy>RaiseFault-401</Policy>
-    <Policy>RaiseFault-429</Policy>
-    <Policy>RaiseFault-400</Policy>
-    <Policy>RaiseFault-500</Policy>
   </Policies>
   <SharedFlows>
     <SharedFlow>default</SharedFlow>
